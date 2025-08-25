@@ -1,0 +1,33 @@
+-- MySQL schema for the minimal medieval text RPG
+USE tempolar_tempolaria;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  gold INT NOT NULL DEFAULT 100,
+  hp INT NOT NULL DEFAULT 100,
+  max_hp INT NOT NULL DEFAULT 100,
+  energy INT NOT NULL DEFAULT 20,
+  max_energy INT NOT NULL DEFAULT 20,
+  nerve INT NOT NULL DEFAULT 10,
+  max_nerve INT NOT NULL DEFAULT 10,
+  level INT NOT NULL DEFAULT 1,
+  xp INT NOT NULL DEFAULT 0,
+  strength INT NOT NULL DEFAULT 1,
+  agility INT NOT NULL DEFAULT 1,
+  endurance INT NOT NULL DEFAULT 1,
+  intellect INT NOT NULL DEFAULT 1,
+  charisma INT NOT NULL DEFAULT 1,
+  in_jail_until DATETIME NULL
+);
+
+CREATE TABLE IF NOT EXISTS logs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  type ENUM('crime','train','rest','duel','system') NOT NULL,
+  message VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
